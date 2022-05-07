@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 let golbalVar = {};
 
-module.exports = describe('Assesment', () => {
+module.exports = describe('Assessment', () => {
     before((done) => {
         userModel.deleteMany({}, (err) => {
             Promise.resolve(createAccount()).then(tokens=>{
@@ -26,9 +26,9 @@ module.exports = describe('Assesment', () => {
     });
 
     describe('Create/Edit/Delete', () => {
-        it('student shound not able to create assesment', (done) => {
+        it('student shound not able to create assessment', (done) => {
             chai.request(app)
-                .post('/api/v1/assesment/create')
+                .post('/api/v1/assessment/create')
                 .set('Authorization', 'Bearer ' + golbalVar.tokens.student)
                 .send({
                     title: 'Test Assignment',
@@ -42,9 +42,9 @@ module.exports = describe('Assesment', () => {
                 });
         });
 
-        it('mentor shound able to create assesment', (done) => {
+        it('mentor shound able to create assessment', (done) => {
             chai.request(app)
-                .post('/api/v1/assesment/create')
+                .post('/api/v1/assessment/create')
                 .set('Authorization', 'Bearer ' + golbalVar.tokens.mentor)
                 .send({
                     title: 'Test Assignment',
@@ -54,14 +54,14 @@ module.exports = describe('Assesment', () => {
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body._id.should.be.a('string');
-                    golbalVar.assesment = res.body._id;
+                    golbalVar.assessment = res.body._id;
                 done();
                 });
         });
 
-        it('admin should be able to edit assesment', (done) => {
+        it('admin should be able to edit assessment', (done) => {
             chai.request(app)
-                .patch(`/api/v1/assesment/${golbalVar.assesment}`)
+                .patch(`/api/v1/assessment/${golbalVar.assessment}`)
                 .set('Authorization', 'Bearer ' + golbalVar.tokens.admin)
                 .send({
                     title: 'Test assignment edited',
@@ -75,9 +75,9 @@ module.exports = describe('Assesment', () => {
                 });
         });
 
-        it('admin should be able to delete assesment', (done) => {
+        it('admin should be able to delete assessment', (done) => {
             chai.request(app)
-                .delete(`/api/v1/assesment/${golbalVar.assesment}`)
+                .delete(`/api/v1/assessment/${golbalVar.assessment}`)
                 .set('Authorization', 'Bearer ' + golbalVar.tokens.admin)
                 .end((err, res) => {
                     res.should.have.status(200);

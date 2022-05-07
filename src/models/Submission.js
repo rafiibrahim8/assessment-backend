@@ -3,9 +3,9 @@
 const { Schema, model } = require('mongoose');
 
 const sumbissionSchema = new Schema({
-    assesment:{
+    assessment:{
         type: Schema.ObjectId,
-        ref: 'Assesment',
+        ref: 'Assessment',
         required: true
     },
     submission_type:{

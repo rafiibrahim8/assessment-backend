@@ -29,4 +29,4 @@ let assessmentSchema = new Schema({
     },
 });
 
-module.exports = model('Assesment', assessmentSchema);
+module.exports = model('Assessment', assessmentSchema);

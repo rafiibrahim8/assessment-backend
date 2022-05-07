@@ -1,5 +1,5 @@
 {
-  "name": "assesment-backend",
+  "name": "assessment-backend",
   "version": "1.0.0",
   "description": "An assessment evaluation backed using Express MongoDB",
   "main": "src/index.js",

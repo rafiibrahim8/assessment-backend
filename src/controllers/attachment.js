@@ -1,11 +1,10 @@
 'use strict';
 
 const submissionModel = require('../models/Submission');
-const promiseResolve = require('../utils/promiseResolve');
 const fs = require('fs');
 const path = require('path');
 
-module.exports.getOne = promiseResolve(async (req, res) => {
+module.exports.getOne = async (req, res) => {
     let filter = {submission_id: req.params.submission_id};
     if(req.user.role === 'student'){
         filter.submitted_by = req.user._id;
@@ -21,4 +20,4 @@ module.exports.getOne = promiseResolve(async (req, res) => {
         return;
     }
     res.sendFile(doc.content, {root: path.join(process.cwd(), process.env.UPLOAD_PATH)});
-});
+};

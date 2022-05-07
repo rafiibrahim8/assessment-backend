@@ -8,9 +8,11 @@ const routes = require('./routes');
 connectDB.connectOrExit();
 const app = express();
 
-app.use('/api/v1/account', routes.account);
-app.use('/api/v1/assesment', routes.assesment);
-app.use('/api/v1/submission', routes.submission);
-app.use('/api/v1/user', routes.user);
+app.use(express.json());
+app.use('/api/v1', routes);
+app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(err.status || 500).json({msg: `Error Occurred. Reason: ${err}`});
+});
 
 module.exports = app;

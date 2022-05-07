@@ -1,17 +1,16 @@
 'use strict';
 
 const submissionModel = require('../models/Submission');
-const assesmentModel = require('../models/Assessment');
-const promiseResolve = require('../utils/promiseResolve');
+const assessmentModel = require('../models/Assessment');
 const grade = require('./grade');
 const attachment = require('./attachment');
 const fs = require('fs');
 const path = require('path');
 
-module.exports.submit = promiseResolve(async (req, res) => {
-    let doc = await assesmentModel.findById(req.params.assesment_id);
+module.exports.submit = async (req, res) => {
+    let doc = await assessmentModel.findById(req.params.assessment_id);
     if(! doc){
-        res.status(404).json({msg: 'Assesment not found.'});
+        res.status(404).json({msg: 'assessment not found.'});
         return;
     }
 
@@ -22,23 +21,24 @@ module.exports.submit = promiseResolve(async (req, res) => {
 
     req.submission.submitted_by = req.user._id;
 
-    doc = await submissionModel.findOne({assesment: req.submission.assesment, submitted_by: req.user._id});
+    doc = await submissionModel.findOne({assessment: req.params.assessment_id, submitted_by: req.user._id});
 
     if(doc){
-        res.status(403).json({msg: 'User already submitted this assesment'});
+        res.status(403).json({msg: 'User already submitted this assessment'});
         return;
     }
 
     try{
+        req.submission.assessment = req.params.assessment_id;
         await submissionModel.create(req.submission);
         res.status(201).json({msg: "Submission received"});
     } catch(err){
         console.log(err);
         res.status(400).json({msg: "Bad request"});
     }
-});
+};
 
-module.exports.viewAll = promiseResolve(async (req, res) => {
+module.exports.viewAll = async (req, res) => {
     let filter = {};
     if(req.user.role === 'student'){
         filter.submitted_by = req.user._id;
@@ -51,7 +51,7 @@ module.exports.viewAll = promiseResolve(async (req, res) => {
         path: 'grade',
         select: 'mark remarks -_id'
     }).populate({
-        path: 'assesment',
+        path: 'assessment',
         select: 'title',
         populate:{
             path: 'mentor',
@@ -60,9 +60,9 @@ module.exports.viewAll = promiseResolve(async (req, res) => {
     }).select('-__v').lean().exec();
 
     res.status(200).json(docs);
-});
+};
 
-module.exports.view = promiseResolve(async (req, res) => {
+module.exports.view = async (req, res) => {
     let filter = {_id: req.params.submission_id};
     if(req.user.role === 'student'){
         filter.submitted_by = req.user._id;
@@ -75,7 +75,7 @@ module.exports.view = promiseResolve(async (req, res) => {
         path: 'grade',
         select: 'mark remarks -_id'
     }).populate({
-        path: 'assesment',
+        path: 'assessment',
         select: 'title',
         populate:{
             path: 'mentor',
@@ -87,9 +87,9 @@ module.exports.view = promiseResolve(async (req, res) => {
         return;
     }
     res.status(200).json(doc);
-});
+};
 
-module.exports.del = promiseResolve(async (req, res) => {
+module.exports.del = async (req, res) => {
     try {
         let doc = await submissionModel.findByIdAndDelete(req.params.submission_id);
         if(doc){
@@ -103,9 +103,9 @@ module.exports.del = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: err});
     }
-});
+};
 
-module.exports.patch = promiseResolve(async (req, res) => {
+module.exports.patch = async (req, res) => {
     try {
         let doc = await submissionModel.findByIdAndUpdate(req.params.submission_id, req.submission);
         if(doc){
@@ -116,7 +116,7 @@ module.exports.patch = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: err});
     }
-});
+};
 
 module.exports.grade = grade;
 module.exports.attachment = attachment;

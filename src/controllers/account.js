@@ -2,9 +2,8 @@
 
 const crypto = require('crypto');
 const userModel = require('../models/User');
-const promiseResolve = require('../utils/promiseResolve');
 
-module.exports.signup = promiseResolve(async (req, res) => {;
+module.exports.signup = async (req, res) => {;
     let {username, password, full_name, email, role} = req.body;
     let vars = {username, password, full_name, email, role};
     let user = await userModel.findOne({username});
@@ -23,9 +22,9 @@ module.exports.signup = promiseResolve(async (req, res) => {;
     } catch(err){
         res.status(400).json({msg: `Bad request. Reason: ${err}`});
     }
-});
+};
 
-module.exports.login = promiseResolve(async (req, res)=>{
+module.exports.login = async (req, res)=>{
     let {username, password} = req.body;
     let user = await userModel.findOne({username});
     if(!user){
@@ -45,15 +44,15 @@ module.exports.login = promiseResolve(async (req, res)=>{
     let random = crypto.randomBytes(16).toString('hex');
     await userModel.updateOne({username}, {logged_in: true, random});
     res.status(200).json({token: user.getJWT(random)});
-});
+};
 
-module.exports.logout = promiseResolve(async (req, res)=>{
+module.exports.logout = async (req, res)=>{
     let {username} = req.user;
     await userModel.updateOne({username}, {logged_in: false});
     res.status(200).json({msg:'Successful'});
-});
+};
 
-module.exports.me = promiseResolve(async (req, res)=>{
+module.exports.me = async (req, res)=>{
     let {username, full_name, email, role} = req.user;
     res.status(200).json({username, full_name, email, role});
-});
+};

@@ -1,5 +1,5 @@
 [![License][License-shield]][License-url]
-# assesment-backend
+# assessment-backend
 
 An assessment evaluation backed using Express MongoDB
 
@@ -8,8 +8,8 @@ Edit `.env` file before starting.
 ### On your host machine
 
 ```sh
-git clone https://github.com/rafiibrahim8/assesment-backend.git
-cd assesment-backend
+git clone https://github.com/rafiibrahim8/assessment-backend.git
+cd assessment-backend
 npm install
 npm run create-admin -- --username <username> --password <password>
 npm start
@@ -21,5 +21,5 @@ Edit ports on `Dockerfile` and `docker-compose.yml`. Then run:
 docker-compose up
 ```
 
-[License-shield]: https://img.shields.io/github/license/rafiibrahim8/assesment-backend
-[License-url]: https://github.com/rafiibrahim8/assesment-backend/blob/master/LICENSE
+[License-shield]: https://img.shields.io/github/license/rafiibrahim8/assessment-backend
+[License-url]: https://github.com/rafiibrahim8/assessment-backend/blob/master/LICENSE
