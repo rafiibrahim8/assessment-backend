@@ -1,0 +1,29 @@
+{
+  "name": "assesment-backend",
+  "version": "1.0.0",
+  "description": "An assessment evaluation backed using Express MongoDB",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "mocha",
+    "create-admin": "node src/scripts/create-admin.js"
+  },
+  "author": "Ibrahim Rafi",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "minimist": "^1.2.6",
+    "mongoose": "^6.3.1",
+    "multer": "^1.4.4"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.16"
+  }
+}

@@ -1,0 +1,10 @@
+services:
+    web:
+        build: .
+        ports:
+            # Make the last port match .env file
+            - "8000:8000"
+    mongo:
+        image: "mongo:5.0.8-focal"
+        ports:
+            - "27017:27017"
