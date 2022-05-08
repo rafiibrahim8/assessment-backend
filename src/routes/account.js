@@ -1,12 +1,12 @@
 'use strict';
 
 const router  = require('express').Router();
-const {signup, login, logout, me} = require('../controllers/account');
-const middlewares = require('../middlewares');
+const auth = require('../middlewares/auth');
+const account = require('../controllers/account');
 
-router.route('/signup').post(middlewares.account(), signup);
-router.route('/login').post(middlewares.account(), login);
-router.route('/logout').post(middlewares.account(true), logout);
-router.route('/me').get(middlewares.account(true), me);
+router.route('/signup').post(account.signup);
+router.route('/login').post(account.login);
+router.route('/logout').post(auth, account.logout);
+router.route('/me').get(auth, account.me);
 
 module.exports = router;

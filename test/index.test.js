@@ -10,6 +10,6 @@ after(done => {
 });
 
 require('./tfiles/account.test');
-require('./tfiles/assesment.test');
+require('./tfiles/assessment.test');
 require('./tfiles/submission.test');
 require('./tfiles/user.test');

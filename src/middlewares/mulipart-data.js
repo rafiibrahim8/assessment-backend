@@ -1,10 +1,8 @@
 'use strict';
 
-const auth = require('./auth');
 const multer = require('multer');
 const path = require('path');
 const crypto =  require('crypto');
-const jsonBodyParser = require('express').json();
 
 const  storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -47,10 +45,6 @@ const fileHandler = (req, res, next)=>{
     next();
 }
 
-module.exports.formParser = (permission)=>{
-    return [auth(permission), uploadMiddleware, fileHandler];
-};
-
-module.exports.jsonParser = (permission)=>{
-    return [auth(permission), jsonBodyParser];
+module.exports = ()=>{
+    return [uploadMiddleware, fileHandler];
 };

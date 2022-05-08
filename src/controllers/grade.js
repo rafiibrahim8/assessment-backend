@@ -2,9 +2,8 @@
 
 const submissionModel = require('../models/Submission');
 const gradingModel = require('../models/Grade');
-const promiseResolve = require('../utils/promiseResolve');
 
-module.exports.create = promiseResolve(async (req, res) => {
+module.exports.create = async (req, res) => {
     let doc = await submissionModel.findById(req.params.submission_id);
     if(! doc){
         res.status(404).json({msg: 'Submission not found.'});
@@ -21,9 +20,9 @@ module.exports.create = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(403).json({msg: `Reason: ${err}`});
     }
-});
+};
 
-module.exports.del = promiseResolve(async (req, res) => {
+module.exports.del = async (req, res) => {
     let doc = await submissionModel.findById(req.params.submission_id);
     if(! (doc && doc.grade)){
         res.status(404).json({msg: 'Grade not found.'});
@@ -36,9 +35,9 @@ module.exports.del = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: err});
     }
-});
+};
 
-module.exports.patch = promiseResolve(async (req, res) => {
+module.exports.patch = async (req, res) => {
     let doc = await submissionModel.findById(req.params.submission_id);
 
     if(! (doc && doc.grade)){
@@ -56,4 +55,4 @@ module.exports.patch = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: err});
     }
-});
+};

@@ -2,10 +2,13 @@
 
 const submission = require('./submission');
 const account = require('./account');
-const assesment = require('./assesment');
-const user = require('./user')
+const assessment = require('./assessment');
+const user = require('./user');
+const router  = require('express').Router();
 
-module.exports.account = account;
-module.exports.assesment = assesment;
-module.exports.user = user;
-module.exports.submission = submission;
+router.use('/account', account);
+router.use('/assessment', assessment);
+router.use('/submission', submission);
+router.use('/user', user);
+
+module.exports = router;

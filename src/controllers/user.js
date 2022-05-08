@@ -1,9 +1,8 @@
 'use strict';
 
 const userModel = require('../models/User');
-const promiseResolve = require('../utils/promiseResolve');
 
-module.exports.create = promiseResolve(async (req, res) => {
+module.exports.create = async (req, res) => {
     let doc = await userModel.findOne({username: req.body.username});
     if(doc){
         res.status(403).json({msg: 'User already exists.'});
@@ -15,14 +14,14 @@ module.exports.create = promiseResolve(async (req, res) => {
     } catch(err){
         res.status(400).json({msg: `Failed to create user. Reason: ${err}`});
     }
-});
+};
 
-module.exports.viewAll = promiseResolve(async (req, res) => {
+module.exports.viewAll = async (req, res) => {
     let results = await userModel.find().select('username full_name role email active logged_in').lean().exec();
     res.status(200).json(results);
-});
+};
 
-module.exports.view = promiseResolve(async (req, res) => {
+module.exports.view = async (req, res) => {
     let select = 'username full_name role -_id'
     if(req.user.role === 'admin'){
         select = select + ' email active logged_in'
@@ -33,9 +32,9 @@ module.exports.view = promiseResolve(async (req, res) => {
     }
 
     res.status(200).json(doc);
-});
+};
 
-module.exports.del = promiseResolve(async (req, res) => {
+module.exports.del = async (req, res) => {
     try {
         let doc = await userModel.findOneAndDelete({username: req.params.username});
         if(! doc){
@@ -46,9 +45,9 @@ module.exports.del = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: err});
     }
-});
+};
 
-module.exports.patch = promiseResolve(async (req, res) => {
+module.exports.patch = async (req, res) => {
     try {
         let doc = await userModel.findOneAndUpdate({username: req.params.username}, req.body);
         if(doc){
@@ -59,4 +58,4 @@ module.exports.patch = promiseResolve(async (req, res) => {
     } catch (err) {
         res.status(400).json({msg: `Error. Reason: ${err}`});
     }
-});
+};
